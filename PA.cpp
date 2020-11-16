@@ -1,9 +1,11 @@
 #include <iostream>
 #include <conio.h>
 using namespace std;
-int login(bool status);
-void admin();
+
 void user();
+void admin();
+int login(bool status);
+int pemilihOrPaslon();
 
 int main(){
 	int pilih;
@@ -27,28 +29,39 @@ int main(){
 }
 
 void user(){
-	int cek = login(false);
-	if (cek != 1){
-		return;
+	int opsi = 0;
+	do{
+		cout << "========================" << endl;
+		cout << "Login" << endl;
+		cout << "Daftar" << endl;
+		cout << "Masukan pilihan : "; cin >> opsi;
+	} while (opsi != 1 || opsi != 2);
+	if (opsi == 1){
+		int cek = login(false);
+		if (cek != 1){
+			return;
+		}
+	} else {
+		cout << "daftar" << endl;
 	}
-	int pilih;
+	int menu,pilih;
 	while(true){
 		cout << "Menu admin" << endl;
 		cout << "1. Cek data diri" << endl;
 		cout << "2. List paslon" << endl;
-		cout << "4. Pilih paslon" << endl;
+		cout << "4. pilih paslon" << endl;
 		cout << "4. Ubah kata sandi" << endl;
 		cout << "5. Kembali ke menu awal" << endl;
-		cout << "Masukan pilihan : ";cin >> pilih;
-		if(pilih == 1){
+		cout << "Masukan pilihan : ";cin >> menu;
+		if(menu == 1){
 
-		} else if (pilih == 2){
+		} else if (menu == 2){
 
-		} else if (pilih == 3){
+		} else if (menu == 3){
 
-		} else if (pilih == 4){
+		} else if (menu == 4){
 
-		} else if (pilih == 4){
+		} else if (menu == 5){
 
 		} else {
 			return;
@@ -61,7 +74,7 @@ void admin(){
 	if (cek != 1){
 		return;
 	}
-	int pilih;
+	int menu,pilih;
 	while(true){
 		cout << "Menu admin" << endl;
 		cout << "1. Tambahkan data" << endl;
@@ -69,19 +82,47 @@ void admin(){
 		cout << "3. Hapus data" << endl;
 		cout << "4. Tampilkan data" << endl;
 		cout << "5. Kembali ke menu awal" << endl;
-		cout << "Masukan pilihan : ";cin >> pilih;
-		if(pilih == 1){
+		cout << "Masukan pilihan : ";cin >> menu;
+		if(menu == 1){
+			pilih = pemilihOrPaslon();
+			if (pilih == 1){
 
-		} else if (pilih == 2){
+			} else if (pilih == 2){
 
-		} else if (pilih == 3){
+			} else {
+				cout << "Pilihan tidak ada " << endl;
+			}
+		} else if (menu == 2){
+			pilih = pemilihOrPaslon();
+			if (pilih == 1){
 
-		} else if (pilih == 4){
+			} else if (pilih == 2){
 
-		} else if (pilih == 4){
+			} else {
+				cout << "Pilihan tidak ada " << endl;
+			}
+		} else if (menu == 3){
+			pilih = pemilihOrPaslon();
+			if (pilih == 1){
 
-		} else {
+			} else if (pilih == 2){
+
+			} else {
+				cout << "Pilihan tidak ada " << endl;
+			}
+		} else if (menu == 4){
+			pilih = pemilihOrPaslon();
+			if (pilih == 1){
+
+			} else if (pilih == 2){
+
+			} else {
+				cout << "Pilihan tidak ada " << endl;
+			}
+		} else if (menu == 5){
 			return;
+		} else {
+			cout << "Pilihan tidak ada " << endl;
 		}
 	}
 }
@@ -139,4 +180,18 @@ int login(bool status){
 	    }
 	} while (true);
 	return 1;
+}
+
+int pemilihOrPaslon(){
+	int pilih;
+	while(true){
+		cout << "Pemilih / Paslon [1/2] : ";cin >> pilih;
+		if (pilih == 1){
+			return 1;
+		} else if (pilih == 2){
+			return 2;
+		} else {
+			cout << "Pilihan tidak ada " << endl;
+		}
+	}
 }
