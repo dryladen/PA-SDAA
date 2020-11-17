@@ -81,6 +81,7 @@ void Pemilu::admin(){
 		std::cout << "4. Tampilkan data" << std::endl;
 		std::cout << "0. Kembali" << std::endl;
 		std::cout << "Masukan pilihan : "; std::cin >> menu;
+		
 		if(menu == 1){
 			pilih = pemilihOrPaslon();
 			if (pilih == 1){

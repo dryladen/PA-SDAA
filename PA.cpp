@@ -1,7 +1,8 @@
 #include <iostream>
 #include <conio.h>
-#include "Pemilih.h"
 #include "Pemilu.h"
+#include "Pemilih.h"
+
 using namespace std;
 
 struct Paslon{

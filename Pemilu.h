@@ -1,4 +1,7 @@
 #include <string>
+#ifndef _PEMILU
+#define _PEMILU
+
 
 class Pemilu{
 	public:
@@ -6,3 +9,5 @@ class Pemilu{
 		int pemilihOrPaslon();
 		void admin();
 };
+
+#endif
