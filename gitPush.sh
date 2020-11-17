@@ -7,3 +7,5 @@ git add -A
 git commit -m "$commit"
 
 git push
+
+:point_up:
