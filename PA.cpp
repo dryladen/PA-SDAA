@@ -2,9 +2,13 @@
 #include <conio.h>
 using namespace std;
 
+void cls(){
+	system("cls");
+}
+
 void user();
 void admin();
-int login(bool status);
+int login(string status);
 int pemilihOrPaslon();
 
 int main(){
@@ -29,21 +33,32 @@ int main(){
 }
 
 void user(){
-	int opsi = 0;
+	int opsi, cek;
+	bool running = 1;
+	enum option {KEMBALI=0, LOGIN, DAFTAR};
 	do{
 		cout << "========================" << endl;
-		cout << "Login" << endl;
-		cout << "Daftar" << endl;
-		cout << "Masukan pilihan : "; cin >> opsi;
-	} while (opsi != 1 || opsi != 2);
-	if (opsi == 1){
-		int cek = login(false);
-		if (cek != 1){
-			return;
+		cout << "1. Login" << endl;
+		cout << "2. Daftar" << endl;
+		cout << "0. Kembali" << endl;
+		cout << "=> "; cin >> opsi;
+		cout << opsi << endl;
+		switch (opsi){
+			case LOGIN:
+				cek = login("user");
+				if (cek != 1){
+					return;
+				}
+				break;
+			case DAFTAR:
+				cout << "daftar" << endl;
+				break;
+			case KEMBALI:
+				running = 0;
+				break;
 		}
-	} else {
-		cout << "daftar" << endl;
-	}
+	} while (running);
+
 	int menu,pilih;
 	while(true){
 		cout << "Menu admin" << endl;
@@ -70,7 +85,7 @@ void user(){
 }
 
 void admin(){
-	int cek = login(true);
+	int cek = login("admin");
 	if (cek != 1){
 		return;
 	}
@@ -127,7 +142,7 @@ void admin(){
 	}
 }
 
-int login(bool status){
+int login(string status){
 	string username,password;
 	int percobaan = 0;
 	do{
@@ -137,43 +152,41 @@ int login(bool status){
 	    char huruf;
 	    int i = 0;
 	    int pass= 55;
-	    while(true) { 
-	    	huruf=getch();
-	        if((huruf >= 'a' && huruf <= 'z') || (huruf >= 'A' && huruf <= 'Z')||(huruf >= '0' && huruf <='9')){
-	            password += huruf;
-	            i++;
-	        	pass++;
-	            cout<<"*";
-	        }
-	        if(huruf == '\b'){
-	            cout<<"\b \b";
-	            if(pass > 55){
-	            	pass--;
-	            	i--;
-	            	password.erase(i,1);
-	            }
-	        }
-	        if(huruf=='\r'){
-	            break;
-	        }
+	    while(huruf=getch()) { 
+	    	if (huruf == 13){
+			    if (status == "admin"){
+				    if (username == "admin" && password == "admin"){
+				    	cls();
+				    	cout << "\nLogin berhasil" << endl;
+				    	return 1;
+				    } else {
+				    	cls();
+				    	cout << "\nAkun tidak ada" << endl;
+				    	percobaan++;
+				    	
+				    	break;
+				    }
+			    } else {
+			    	if (username == "user" && password == "user"){
+				    	cout << "\nLogin berhasil" << endl;
+				    	return 1;
+				    } else {
+				    	cout << "\nAkun tidak ada" << endl;
+				    	percobaan++;
+				    }
+			    }	
+			} else if (huruf == 8){
+				
+				if (password.length() > 0){
+					cout << "\b \b";
+					password.erase(password.length()-1);
+				}
+			} else {
+				cout << "*";
+				password += huruf;
+			}
 	    }
-	    if (status == true){
-		    if (username == "admin" || password == "admin"){
-		    	cout << "\nLogin berhasil" << endl;
-		    	return 1;
-		    } else if (username != "admin" || password != "admin"){
-		    	cout << "\nAkun tidak ada" << endl;
-		    	percobaan++;
-		    }
-	    } else {
-	    	if (username == "user" || password == "user"){
-		    	cout << "\nLogin berhasil" << endl;
-		    	return 1;
-		    } else if (username != "user" || password != "user"){
-		    	cout << "\nAkun tidak ada" << endl;
-		    	percobaan++;
-		    }
-	    }
+
 	    if (percobaan == 3){
 	    	cout << "Kembali ke menu awal" << endl;
 	    	return 0;
