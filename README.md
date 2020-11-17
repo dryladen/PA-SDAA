@@ -1,4 +1,7 @@
 # PA-SDAA
-Nih yogay "Apes together strong"
-+ 1915016069
-+ 1915016074
+
+Tinggal Buka aja file PA.dev nya (_Jika kalian memakai Dev C++_)
+
+Jika kalian memakai IDE atau Text Editor lain Tinggal Linking aja semua *.cpp
+
+:point_up:
