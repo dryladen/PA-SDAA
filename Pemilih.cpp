@@ -5,7 +5,7 @@
 Pemilih* headPemilih = NULL, *tailPemilih = NULL;
 
 void Pemilih::cekData(){
-	
+	cout << "Ngentiaw" << endl;
 } 
 
 void Pemilih::masuk_atau_daftar(){
