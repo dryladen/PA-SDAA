@@ -19,7 +19,6 @@ Paslon* headPaslon = NULL, *tailPaslon = NULL;
 
 void menuAwal();
 
-
 int main(){
 	menuAwal();
 	return 0;
