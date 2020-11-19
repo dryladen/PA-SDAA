@@ -2,20 +2,7 @@
 #include <conio.h>
 #include "Pemilu.h"
 #include "Pemilih.h"
-
 using namespace std;
-
-struct Paslon{
-	int id;
-	int noUrut;
-	string namaKetua;
-	string namaWakilKetua;
-	string partai;
-	Paslon* next;
-};
-
-
-Paslon* headPaslon = NULL, *tailPaslon = NULL;
 
 void menuAwal();
 
@@ -33,10 +20,12 @@ void menuAwal(){
 		KELUAR = 0, ADMIN, USER
 	};
 	while(running){
+		cout << "==============================================================" << endl;
 		cout << "Menu Awal" << endl;
 		cout << "1. Admin" << endl;
 		cout << "2. User" << endl;
 		cout << "0. Exit Program" << endl;
+		cout << "==============================================================" << endl;
 		cout << "Masukan pilihan : ";cin >> pilih;
 		switch (pilih){
 			case ADMIN:

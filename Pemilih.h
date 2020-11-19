@@ -2,8 +2,9 @@
 
 struct pemilih{
 	int nik;
-	std::string nama;
 	int umur;
+	int pilihNoUrut;
+	std::string nama;
 	std::string alamat;
 	std::string password;
 	pemilih* next;
