@@ -45,14 +45,14 @@ void Pemilu::pushPaslon(){
 	}
 }
 
-void Pemilu::displayPaslon(){
+Paslon* Pemilu::displayPaslon(){
 	Paslon *pointer = frontPaslon;
 	int i = 0;
 	if(frontPaslon == NULL){
 		std::cout << "==============================================================" << std::endl;
 		std::cout<< ">>    Data Kosong   <<" <<std::endl;
 		std::cout << "==============================================================" << std::endl;
-		return;
+		return NULL;
 	}
 	std::cout << "==============================================================" << std::endl;
 	while(pointer != NULL){
@@ -67,6 +67,7 @@ void Pemilu::displayPaslon(){
 		i++;
 	}
 	std::cout << "==============================================================" << std::endl;
+	return frontPaslon;
 }
 
 int Pemilu::login(){

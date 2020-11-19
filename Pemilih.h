@@ -1,5 +1,5 @@
 #include <string>
-
+#include "Pemilu.h"
 struct pemilih{
 	int nik = 0;
 	int pilihNoUrut = 0;
@@ -21,4 +21,5 @@ class Pemilih{
 		void ubahSandi();
 		void pilihPaslon();
 		int login();
+		void popPemilih();
 };

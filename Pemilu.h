@@ -11,6 +11,8 @@ struct Paslon{
 	Paslon* next;
 };
 
+
+
 class Pemilu{
 	public:
 		int login();
@@ -18,7 +20,7 @@ class Pemilu{
 		void admin();
 		void pushPaslon();
 		void cls();
-		void displayPaslon();
+		Paslon* displayPaslon();
 };
 
 #endif

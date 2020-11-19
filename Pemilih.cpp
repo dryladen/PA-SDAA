@@ -33,7 +33,7 @@ int Pemilih::login(){
 	    int pass= 55;
 	    while(huruf = getch()) { 
 	    	if (huruf == 13){
-		    	if (username == frontPemilih->nama && password == frontPemilih->password){
+		    	if (username == frontPemilih->nama && password == frontPemilih->password && frontPemilih->pilihNoUrut == 0){
 		    		pemilu->cls();
 		    		std::cout << "==============================================================" << std::endl;
 			    	std::cout << "Login berhasil" << std::endl;
@@ -43,17 +43,16 @@ int Pemilih::login(){
 		    		pemilu->cls();
 		    		pemilih *pointer = frontPemilih;			    		
 		    		while(pointer != NULL){
-	    				std::cout << "A" << std::endl;
-		    			if(username == frontPemilih->nama && password == frontPemilih->password){
+		    			if(username == pointer->nama && password == pointer->password){
 		    				std::cout << "==============================================================" << std::endl;
-			    			std::cout << "Bukan antrian anda / " << std::endl;
+			    			std::cout << "Bukan antrian anda " << std::endl;
 			    			std::cout << "==============================================================" << std::endl;
 			    			return 0;
 		    			}
 		    			pointer = pointer->next;
 		    		}
 			    	std::cout << "==============================================================" << std::endl;
-			    	std::cout << "Akun tidak ada / " << std::endl;
+			    	std::cout << "Akun tidak ada " << std::endl;
 			    	std::cout << "==============================================================" << std::endl;
 			    	percobaan++;
 			    	break;
@@ -105,7 +104,7 @@ void Pemilih::displayPemilih(){
 		std::cout << "Pemilih [" << i+1 << "]" << std::endl;
 		std::cout << "NIK           : " << pointer->nik << std::endl;
 		std::cout << "Nama          : " << pointer->nama << std::endl;
-		(pointer->pilihNoUrut == 0) ? std::cout << "Status        : Belum Coblos " << std::endl : std::cout << "Status      : Sudah Coblos " << std::endl;
+		(pointer->pilihNoUrut == 0) ? std::cout << "Status        : Belum Coblos " << std::endl : std::cout << "Status        : Sudah Coblos " << std::endl;
 		std::cout << std::endl;
 		pointer = pointer->next;
 		i++;
@@ -192,6 +191,9 @@ void Pemilih::masuk_atau_daftar(){
 	bool running = 1;
 	enum option {KEMBALI=0, LOGIN, DAFTAR};
 	do{
+
+		std::cout << "==============================================================" << std::endl;
+		(frontPemilih == NULL) ? std::cout << ">> Belum ada yang daftar" << std::endl : std::cout << ">> Giliran coblos : " << frontPemilih->nama << std::endl;
 		std::cout << "==============================================================" << std::endl;
 		std::cout << "1. Login" << std::endl;
 		std::cout << "2. Daftar" << std::endl;
@@ -216,18 +218,43 @@ void Pemilih::masuk_atau_daftar(){
 	} while (running);
 }
 
-// void Pemilih::pilihPaslon(){
-// 	int pilih;
-// 	pemilu->displayPaslon();
-// 	std::cout << "Input nomor Paslon";std::cin >> pilih;
-// 	Pemilu::Paslon *pointer = Pemilu::paslon *frontPaslon;
-// 	while(pointer != NULL){
-// 		if(pilih == Paslon->noUrut){
-// 			frontPemilih->pilihNoUrut = pilih;
-// 		}
-// 		pointer = pointer->next;
-// 	}
-// }
+void Pemilih::pilihPaslon(){
+	if (frontPemilih->pilihNoUrut != 0){
+		std::cout << "==============================================================" << std::endl;
+		std::cout << "Anda sudah memilih paslon" << std::endl;
+		std::cout << "==============================================================" << std::endl;
+		return;
+	}
+	int pilih;
+	Paslon *frontPaslon = pemilu->displayPaslon();
+	std::cout << "Input nomor Paslon : ";std::cin >> pilih;
+	Paslon *pointer = frontPaslon;
+	pemilih *pointer1 = frontdatabasePemilih;
+	while(pointer != NULL){
+		if(pilih == pointer->noUrut){
+			frontPemilih->pilihNoUrut = pilih;
+			while(pointer1 != NULL){ // untuk ngubah pilih nomor urut yang ada di database
+				if(frontPemilih->nik == pointer1->nik){
+					pointer1->pilihNoUrut = pilih;
+				}
+				pointer1 = pointer1->next;
+			}
+		}
+		pointer = pointer->next;
+	}
+}
+
+void Pemilih::popPemilih(){
+	if(frontPemilih == rearPemilih){
+		frontPemilih = NULL;
+		rearPemilih = NULL;
+		return;
+	}
+	pemilih *temp = frontPemilih;
+	frontPemilih = frontPemilih->next;
+	temp = NULL;
+}
+
 void Pemilih::ubahSandi(){
 	std::string sandiBaru;
 	ulang:
@@ -258,10 +285,13 @@ void Pemilih::user(){
 		} else if (menu == 2){
 			pemilu->displayPaslon();
 		} else if (menu == 3){
-
+			pilihPaslon();
 		} else if (menu == 4){
 			ubahSandi();
 		} else if (menu == 0){
+			if(frontPemilih->pilihNoUrut != 0){
+				popPemilih();
+			}
 			return;
 		} else {
 			std::cout << "==============================================================" << std::endl;
