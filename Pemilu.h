@@ -13,11 +13,12 @@ struct Paslon{
 
 class Pemilu{
 	public:
-		int login(std::string);
+		int login();
 		int pemilihOrPaslon();
 		void admin();
-		void push();
-		void display();
+		void pushPaslon();
+		void cls();
+		void displayPaslon();
 };
 
 #endif

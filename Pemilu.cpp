@@ -2,50 +2,53 @@
 #include <string>
 #include <conio.h>
 #include "Pemilu.h"
+#include "Pemilih.h"
 
-Paslon *front = NULL;
-Paslon *rear = NULL;
+Paslon *frontPaslon = NULL;
+Paslon *rearPaslon = NULL;
 
-void cls(){
+Pemilih *data = new Pemilih();
+
+void Pemilu::cls(){
 	system("cls");
 }
 
-void Pemilu::push(){
+void Pemilu::pushPaslon(){
 	int batas;
 	std::cout << "==============================================================" << std::endl;
 	std::cout << "Masukan jumlah Paslon : ";std::cin >> batas;
 	std::cout << "==============================================================" << std::endl;
 	std::cout << ">> Memasukan Data Paslon : " << std::endl;
 	for(int i = 0; i < batas; i-=-1){
-		Paslon *pointer = new Paslon();
+		Paslon *databaru = new Paslon();
 		std::cout << "==============================================================" << std::endl;
 		std::cout << "Paslon [" << i+1 << "]" << std::endl;
 		std::cout << std::endl;
 		std::cout << "Input ID          : ";
-		std::cin >> pointer->id;
+		std::cin >> databaru->id;
 		std::cout << "Input Nomor Urut  : ";
-		std::cin >> pointer->noUrut;
+		std::cin >> databaru->noUrut;
 		std::cout << "Input Nama Ketua  : ";
-		std::fflush(stdin);std::getline(std::cin,pointer->namaKetua);
+		std::fflush(stdin);std::getline(std::cin,databaru->namaKetua);
 		std::cout << "Input Nama Wakil  : ";
-		std::fflush(stdin);std::getline(std::cin,pointer->namaWakilKetua);
+		std::fflush(stdin);std::getline(std::cin,databaru->namaWakilKetua);
 		std::cout << "Input Nama Partai : ";
-		std::fflush(stdin);std::getline(std::cin,pointer->partai);
-		pointer->next = NULL;
-		if(front == NULL){
-			front = pointer;
-			rear = pointer;
+		std::fflush(stdin);std::getline(std::cin,databaru->partai);
+		databaru->next = NULL;
+		if(frontPaslon == NULL){
+			frontPaslon = databaru;
+			rearPaslon = databaru;
 		} else {
-			rear->next = pointer;
-			rear = pointer;
+			rearPaslon->next = databaru;
+			rearPaslon = databaru;
 		}
 	}
 }
 
-void Pemilu::display(){
-	Paslon *pointer = front;
+void Pemilu::displayPaslon(){
+	Paslon *pointer = frontPaslon;
 	int i = 0;
-	if(front == NULL){
+	if(frontPaslon == NULL){
 		std::cout << "==============================================================" << std::endl;
 		std::cout<< ">>    Data Kosong   <<" <<std::endl;
 		std::cout << "==============================================================" << std::endl;
@@ -66,7 +69,7 @@ void Pemilu::display(){
 	std::cout << "==============================================================" << std::endl;
 }
 
-int Pemilu::login(std::string status){
+int Pemilu::login(){
 	std::string username,password;
 	int percobaan = 0;
 	do{
@@ -79,37 +82,20 @@ int Pemilu::login(std::string status){
 	    int pass= 55;
 	    while(huruf = getch()) { 
 	    	if (huruf == 13){
-			    if (status == "admin"){
-				    if (username == "admin" && password == "admin"){
-				    	cls();
-				    	std::cout << "==============================================================" << std::endl;
-				    	std::cout << "\nLogin berhasil" << std::endl;
-				    	std::cout << "==============================================================" << std::endl;
-				    	return 1;
-				    } else {
-				    	cls();
-				    	std::cout << "==============================================================" << std::endl;
-				    	std::cout << "\nAkun tidak ada" << std::endl;
-				    	std::cout << "==============================================================" << std::endl;
-				    	percobaan++;
-				    	break;
-				    }
+			    if (username == "admin" && password == "admin"){
+			    	cls();
+			    	std::cout << "==============================================================" << std::endl;
+			    	std::cout << "Login berhasil" << std::endl;
+			    	std::cout << "==============================================================" << std::endl;
+			    	return 1;
 			    } else {
-			    	if (username == "user" && password == "user"){
-			    		cls();
-			    		std::cout << "==============================================================" << std::endl;
-				    	std::cout << "\nLogin berhasil" << std::endl;
-			    		std::cout << "==============================================================" << std::endl;
-				    	return 1;
-				    } else {
-				    	cls();
-				    	std::cout << "==============================================================" << std::endl;
-				    	std::cout << "\nAkun tidak ada" << std::endl;
-				    	std::cout << "==============================================================" << std::endl;
-				    	percobaan++;
-				    	break;
-				    }
-			    }	
+			    	cls();
+			    	std::cout << "==============================================================" << std::endl;
+			    	std::cout << "Akun tidak ada" << std::endl;
+			    	std::cout << "==============================================================" << std::endl;
+			    	percobaan++;
+			    	break;
+			    }
 			} else if (huruf == 8){
 				
 				if (password.length() > 0){
@@ -134,7 +120,7 @@ int Pemilu::login(std::string status){
 
 void Pemilu::admin(){
 	Pemilu* pemilu = new Pemilu();
-	int cek = pemilu->login("admin");
+	int cek = login();
 	if (cek != 1){
 		return;
 	}
@@ -158,9 +144,9 @@ void Pemilu::admin(){
 		if(menu == 1){
 			pilih = pemilihOrPaslon();
 			if (pilih == 1){
-
+				data->pushPemilih();
 			} else if (pilih == 2){
-				push();
+				pushPaslon();
 			} else {
 				std::cout << "==============================================================" << std::endl;
 				std::cout << "Pilihan tidak ada " << std::endl;
@@ -191,9 +177,9 @@ void Pemilu::admin(){
 		} else if (menu == 4){
 			pilih = pemilihOrPaslon();
 			if (pilih == 1){
-
+				data->displayPemilih();
 			} else if (pilih == 2){
-				display();
+				displayPaslon();
 			} else {
 				std::cout << "==============================================================" << std::endl;
 				std::cout << "Pilihan tidak ada " << std::endl;

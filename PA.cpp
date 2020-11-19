@@ -12,8 +12,10 @@ int main(){
 }
 
 void menuAwal(){
+
 	Pemilih* voter = new Pemilih();
-	Pemilu* pemilu = new Pemilu();
+	Pemilu* admin = new Pemilu();
+
 	int pilih;
 	bool running = 1;
 	enum option {
@@ -29,7 +31,7 @@ void menuAwal(){
 		cout << "Masukan pilihan : ";cin >> pilih;
 		switch (pilih){
 			case ADMIN:
-				pemilu->admin();
+				admin->admin();
 				break;
 			case USER:
 				voter->masuk_atau_daftar();
