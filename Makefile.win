@@ -4,8 +4,9 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = PA.o Pemilih.o Pemilu.o
-LINKOBJ  = PA.o Pemilih.o Pemilu.o
+RES      = PA_private.res
+OBJ      = src/PA.o src/Pemilih.o src/Pemilu.o $(RES)
+LINKOBJ  = src/PA.o src/Pemilih.o src/Pemilu.o $(RES)
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -24,11 +25,15 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
 
-PA.o: PA.cpp
-	$(CPP) -c PA.cpp -o PA.o $(CXXFLAGS)
+src/PA.o: src/PA.cpp
+	$(CPP) -c src/PA.cpp -o src/PA.o $(CXXFLAGS)
 
-Pemilih.o: Pemilih.cpp
-	$(CPP) -c Pemilih.cpp -o Pemilih.o $(CXXFLAGS)
+src/Pemilih.o: src/Pemilih.cpp
+	$(CPP) -c src/Pemilih.cpp -o src/Pemilih.o $(CXXFLAGS)
 
-Pemilu.o: Pemilu.cpp
-	$(CPP) -c Pemilu.cpp -o Pemilu.o $(CXXFLAGS)
+src/Pemilu.o: src/Pemilu.cpp
+	$(CPP) -c src/Pemilu.cpp -o src/Pemilu.o $(CXXFLAGS)
+
+PA_private.res: PA_private.rc 
+	$(WINDRES) -i PA_private.rc --input-format=rc -o PA_private.res -O coff 
+
