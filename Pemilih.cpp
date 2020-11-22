@@ -31,7 +31,7 @@ int Pemilih::login(){
 	    char huruf;
 	    int i = 0;
 	    int pass= 55;
-	    while(huruf = getch()) { 
+	    while(huruf = getch()) {  
 	    	if (huruf == 13){
 		    	if (username == frontPemilih->nama && password == frontPemilih->password && frontPemilih->pilihNoUrut == 0){
 		    		pemilu->cls();
@@ -123,7 +123,7 @@ void Pemilih::pushPemilih(){
 		std::cout << "Pemilih [" << i+1 << "]" << std::endl;
 		std::cout << std::endl;
 		std::cout << "Input NIK     : ";
-		std::cin >> databaru->nik;
+		std::cin  >> databaru->nik;
 		std::cout << "Input Nama    : ";
 		std::fflush(stdin);std::getline(std::cin,databaru->nama);
 		databaru->next = NULL;
