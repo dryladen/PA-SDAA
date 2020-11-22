@@ -3,24 +3,32 @@
 #define _PEMILU
 
 struct Paslon{
-	int id;
-	int noUrut;
+	std::string noUrut;
 	std::string namaKetua;
 	std::string namaWakilKetua;
 	std::string partai;
 	Paslon* next;
 };
 
-
-
 class Pemilu{
 	public:
 		int login();
 		int pemilihOrPaslon();
-		void admin();
-		void pushPaslon();
+		int jumpSearch();
 		void cls();
+		void admin();
+		void enquePaslon();
+		void dequePaslon();
+		void updatePaslon();
+		void deletePaslon();
+		void quickSort(Paslon **headRef, bool jenis);
+		bool ascendingOrDescending();
 		Paslon* displayPaslon();
+		Paslon *getTail(Paslon *cur);
+		Paslon *go(Paslon *pointer, int batas);
+		Paslon *quickSortRecur(Paslon *head, Paslon *end, bool jenis);
+		Paslon *partition(Paslon *head, Paslon *end, Paslon **newHead, Paslon **newEnd, bool jenis);
+
 };
 
 #endif

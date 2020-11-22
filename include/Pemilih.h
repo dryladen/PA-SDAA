@@ -1,9 +1,10 @@
 #include <string>
+#include <math.h>
 #ifndef _PEMILIH
 #define _PEMILIH
 struct pemilih{
-	int nik = 0;
-	int pilihNoUrut = 0;
+	std::string nik;
+	std::string pilihNoUrut = "none";
 	std::string nama;
 	std::string password;
 	bool daftar = false;
@@ -18,11 +19,18 @@ class Pemilih{
 		void user();
 		void displayDataDiri();
 		void displayPemilih();
-		void pushPemilih();
+		void enquePemilih();
 		void ubahSandi();
 		void pilihPaslon();
 		int login();
-		void popPemilih();
+		void dequePemilih();
+		void updatePemilih();
+		void quickSort(bool jenis);
+		pemilih* getTail(pemilih *cur);
+		pemilih* partition(pemilih *head, pemilih *end, pemilih **newHead, pemilih **newEnd, bool jenis);
+		pemilih* quickSortRecur(pemilih *head, pemilih *end, bool jenis);
+		pemilih* go(pemilih *pointer, int batas);
+		int jumpSearch();
 };
 
 #endif
