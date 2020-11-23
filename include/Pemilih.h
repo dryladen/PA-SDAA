@@ -1,5 +1,4 @@
 #include <string>
-#include <math.h>
 #ifndef _PEMILIH
 #define _PEMILIH
 struct pemilih{
@@ -9,7 +8,9 @@ struct pemilih{
 	std::string password;
 	bool daftar = false;
 	pemilih* next;
+	pemilih* prev;
 };
+
 
 class Pemilih{
 	public:

@@ -1,16 +1,18 @@
 #include <iostream>
 #include <string>
 #include <conio.h>
+#include <math.h>
 #include "..\include\Pemilih.h"
 #include "..\include\Pemilu.h"
+#include "..\include\File.h"
 
 // data untuk yang udah daftar
-pemilih *frontPemilih = NULL;
-pemilih *rearPemilih = NULL;
+extern pemilih *frontPemilih;
+extern pemilih *rearPemilih;
 
 // untuk matching ke pemilih yang daftar
-pemilih *frontdatabasePemilih = NULL;
-pemilih *reardatabasePemilih = NULL;
+extern pemilih *frontdatabasePemilih;
+extern pemilih *reardatabasePemilih;
 
 Pemilu* pemilu = new Pemilu();
 
@@ -91,6 +93,7 @@ void Pemilih::displayDataDiri(){
 }
 
 void Pemilih::displayPemilih(){
+
 	pemilih *pointer = frontdatabasePemilih;
 	int i = 0;
 	if(frontdatabasePemilih == NULL){
@@ -423,7 +426,7 @@ int Pemilih::jumpSearch(){
 	}
 	quickSort(true);
 	std::string nik;
-	std::cout << "Masukan no Urut";std::fflush(stdin);std::getline(std::cin,nik);
+	std::cout << "Masukan no Urut";fflush(stdin);std::getline(std::cin,nik);
 	int n = 0;
 	pemilih *pointer = frontdatabasePemilih;
 	while(pointer != NULL){

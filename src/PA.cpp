@@ -2,9 +2,16 @@
 #include <conio.h>
 #include "..\include\Pemilu.h"
 #include "..\include\Pemilih.h"
+#include "..\include\File.h"
 using namespace std;
 
 void menuAwal();
+
+pemilih *frontPemilih = NULL;
+pemilih *rearPemilih = NULL;
+
+pemilih *frontdatabasePemilih = NULL;
+pemilih *reardatabasePemilih = NULL;
 
 int main(){
 	menuAwal();
@@ -12,7 +19,9 @@ int main(){
 }
 
 void menuAwal(){
-
+	if (frontdatabasePemilih == NULL){
+		readDataBasePemilih(frontdatabasePemilih, reardatabasePemilih);
+	}
 	Pemilih* voter = new Pemilih();
 	Pemilu* admin = new Pemilu();
 

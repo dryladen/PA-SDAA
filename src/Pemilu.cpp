@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <conio.h>
-
+#include <math.h>
 #include "..\include\Pemilu.h"
 #include "..\include\Pemilih.h"
 
@@ -374,7 +374,7 @@ int Pemilu::jumpSearch(){
 	}
 	quickSort(&frontPaslon, true);
 	std::string noUrut;
-	std::cout << "Masukan no Urut";std::fflush(stdin);std::getline(std::cin,noUrut);
+	std::cout << "Masukan no Urut";fflush(stdin);std::getline(std::cin,noUrut);
 	int n = 0;
 	Paslon *pointer = frontPaslon;
 	while(pointer != NULL){
