@@ -3,14 +3,12 @@
 #define _PEMILIH
 struct pemilih{
 	std::string nik;
-	std::string pilihNoUrut = "none";
 	std::string nama;
 	std::string password;
+	std::string pilihNoUrut = "none";
 	bool daftar = false;
 	pemilih* next;
-	pemilih* prev;
 };
-
 
 class Pemilih{
 	public:

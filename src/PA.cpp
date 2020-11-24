@@ -7,6 +7,9 @@ using namespace std;
 
 void menuAwal();
 
+Paslon *frontPaslon = NULL;
+Paslon *rearPaslon = NULL;
+
 pemilih *frontPemilih = NULL;
 pemilih *rearPemilih = NULL;
 
@@ -19,9 +22,10 @@ int main(){
 }
 
 void menuAwal(){
-	if (frontdatabasePemilih == NULL){
-		readDataBasePemilih(frontdatabasePemilih, reardatabasePemilih);
-	}
+	readDataBasePemilih(frontdatabasePemilih, reardatabasePemilih);
+	readQueuePemilih(frontPemilih, rearPemilih);
+	readDataPaslon(frontPaslon, rearPaslon);
+
 	Pemilih* voter = new Pemilih();
 	Pemilu* admin = new Pemilu();
 

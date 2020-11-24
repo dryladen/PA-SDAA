@@ -5,8 +5,8 @@
 #include "..\include\Pemilu.h"
 #include "..\include\Pemilih.h"
 
-Paslon *frontPaslon = NULL;
-Paslon *rearPaslon = NULL;
+extern Paslon *frontPaslon;
+extern Paslon *rearPaslon;
 
 Pemilih *voter = new Pemilih();
 
@@ -59,6 +59,7 @@ Paslon* Pemilu::displayPaslon(){
 		std::cout << "Nama Ketua       : " << pointer->namaKetua << std::endl;
 		std::cout << "Nama Wakil Ketua : " << pointer->namaWakilKetua << std::endl;
 		std::cout << "Partai           : " << pointer->partai << std::endl;
+		std::cout << "Jumlah Suara     : " << pointer->jumlahSuara << std::endl;
 		std::cout << std::endl;
 		pointer = pointer->next;
 		i++;
@@ -188,7 +189,6 @@ void Pemilu::deletePaslon(){
 	std::cout<< ">>    Paslon tidak terdaftar  <<" <<std::endl;
 	std::cout << "==============================================================" << std::endl;
 }
-
 
 void Pemilu::admin(){
 	Pemilu* pemilu = new Pemilu();

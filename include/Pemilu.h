@@ -7,6 +7,7 @@ struct Paslon{
 	std::string namaKetua;
 	std::string namaWakilKetua;
 	std::string partai;
+	int jumlahSuara;
 	Paslon* next;
 };
 

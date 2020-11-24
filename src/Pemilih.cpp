@@ -152,10 +152,10 @@ void Pemilih::cekData(){
 	while(matching != NULL){
 		if(matching->nik == nik && matching->daftar == true){
 			if(matching->pilihNoUrut.compare("none") == 0){
-				std::cout << "Anda sudah memilih" << std::endl;
+				std::cout << "Anda sudah mendaftar" << std::endl;
 				return;
 			} else {
-				std::cout << "Anda sudah mendaftar" << std::endl;
+				std::cout << "Anda sudah memilih" << std::endl;
 				return;
 			}
 		}
@@ -177,10 +177,12 @@ void Pemilih::cekData(){
 	    	if(frontPemilih == NULL){
 	    		frontPemilih = databaru;
 	    		rearPemilih = databaru;
+	    		updateQueuePemilih(frontPemilih);
 	    		return;
 	    	} 
 	    	rearPemilih->next = databaru;
 	    	rearPemilih = databaru;
+	    	updateQueuePemilih(frontPemilih);
 	    	return;
 	    }
 	    matching = matching->next;

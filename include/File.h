@@ -2,7 +2,15 @@
 #define _FILE
 
 #include "Pemilih.h"
-void openDataBase(std::string);
-void readDataBasePemilih(pemilih* &head,pemilih* &tail);
+#include "Pemilu.h"
+void openDataBasePemilih();
+void openDataBasePaslon();
+void openQueuePemilih();
 
+void readDataBasePemilih(pemilih* &head,pemilih* &tail);
+void readDataPaslon(Paslon* &head, Paslon* &tail);
+void readQueuePemilih(pemilih* &head, pemilih* &tail);
+
+void updateDataBasePemilih(pemilih* &head);
+void updateQueuePemilih(pemilih* head);
 #endif
