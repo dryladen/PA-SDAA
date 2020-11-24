@@ -31,20 +31,22 @@ void openDataBasePaslon(){
 	dataFile.open("database\\dataPaslon.csv", std::ios::trunc | std::ios::out | std::ios::in | std::ios::binary);
 }
 
-void openQueuePemilih(){
+bool openQueuePemilih(){
 	dataFile.open("database\\dataQueuePemilih.csv", std::ios::out | std::ios::in | std::ios::binary);
 	
 	if (dataFile.is_open()){
 		std::cout << "dataQueuePemilih Ada\n";
-		return;
+		return true;
 	} 
 	std::cout << "dataQueuePemilih Gak Ada. Buat Baru\n";
 	dataFile.close();
 	dataFile.open("database\\dataQueuePemilih.csv", std::ios::trunc | std::ios::out | std::ios::in | std::ios::binary);
+	return false;
 }
 
 // Untuk Ngebaca File, Selalu dipanggil di awal program
 void readDataBasePemilih(pemilih* &head, pemilih* &tail){
+	std::string space;
 	openDataBasePemilih();
 	
 	while(!dataFile.eof()){
@@ -52,7 +54,9 @@ void readDataBasePemilih(pemilih* &head, pemilih* &tail){
 		
 		getline(dataFile,dataBaru->nik,',');
 		getline(dataFile,dataBaru->nama, ',');
-		getline(dataFile,dataBaru->pilihNoUrut,'\n');
+		getline(dataFile,dataBaru->pilihNoUrut,',');
+		dataFile >> dataBaru->daftar;
+		getline(dataFile, space);
 		
 		dataBaru->next = NULL;
 		
@@ -72,7 +76,11 @@ void readDataBasePemilih(pemilih* &head, pemilih* &tail){
 }
 
 void readQueuePemilih(pemilih* &head, pemilih* &tail){
-	openQueuePemilih();
+	bool exist = openQueuePemilih();
+	if (exist == false){
+		dataFile.close();
+		return;
+	}
 	
 	while(!dataFile.eof()){
 		pemilih* dataBaru = new pemilih();
@@ -111,6 +119,7 @@ void readDataPaslon(Paslon* &head, Paslon* &tail){
 		getline(dataFile,dataBaru->namaWakilKetua,',');
 		getline(dataFile,dataBaru->partai,',');
 		dataFile >> dataBaru->jumlahSuara;
+		getline(dataFile,space);
 		
 		if (dataFile.eof()){
 			break;
@@ -126,6 +135,7 @@ void readDataPaslon(Paslon* &head, Paslon* &tail){
 			tail->next = dataBaru;
 			tail = dataBaru;
 		}
+
 	}
 	dataFile.close();	
 }
@@ -137,7 +147,7 @@ void updateDataBasePemilih(pemilih* &head){
 	pemilih* temp = head;
 	
 	while (temp!=NULL){
-		dataFile << temp->nik << "," << temp->nama << "," << temp->pilihNoUrut;
+		dataFile << temp->nik << "," << temp->nama << "," << temp->pilihNoUrut << "," << temp->daftar;
 		if (temp->next != NULL){
 			dataFile << "\n";
 		}
@@ -153,6 +163,21 @@ void updateQueuePemilih(pemilih* head){
 	
 	while (tmp!=NULL){
 		dataFile << tmp->nik << "," << tmp->nama << "," << tmp->password << "," << tmp->pilihNoUrut;
+		if (tmp->next != NULL){
+			dataFile << "\n";
+		}
+		tmp = tmp->next;
+	}
+	dataFile.close();
+}
+
+void updateDataPaslon(Paslon* &head){
+	dataFile.open("database\\dataPaslon.csv", std::ios::trunc | std::ios::out | std::ios::in | std::ios::binary);
+	
+	Paslon* tmp = head;
+	
+	while (tmp!=NULL){
+		dataFile << tmp->noUrut << "," << tmp->namaKetua << "," << tmp->namaWakilKetua << "," << tmp->partai << "," << tmp->jumlahSuara;
 		if (tmp->next != NULL){
 			dataFile << "\n";
 		}

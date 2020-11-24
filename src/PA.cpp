@@ -3,6 +3,7 @@
 #include "..\include\Pemilu.h"
 #include "..\include\Pemilih.h"
 #include "..\include\File.h"
+
 using namespace std;
 
 void menuAwal();
@@ -56,4 +57,11 @@ void menuAwal(){
 				break;
 		}
 	}
+	if (frontPemilih == NULL){
+		remove("database\\dataQueuePemilih.csv");
+	} else {
+		updateQueuePemilih(frontPemilih);
+	}
+	updateDataBasePemilih(frontdatabasePemilih);
+	updateDataPaslon(frontPaslon);
 }
