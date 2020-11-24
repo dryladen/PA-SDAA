@@ -5,7 +5,7 @@
 #include "Pemilu.h"
 void openDataBasePemilih();
 void openDataBasePaslon();
-void openQueuePemilih();
+bool openQueuePemilih();
 
 void readDataBasePemilih(pemilih* &head,pemilih* &tail);
 void readDataPaslon(Paslon* &head, Paslon* &tail);
@@ -13,4 +13,5 @@ void readQueuePemilih(pemilih* &head, pemilih* &tail);
 
 void updateDataBasePemilih(pemilih* &head);
 void updateQueuePemilih(pemilih* head);
+void updateDataPaslon(Paslon* &head);
 #endif
