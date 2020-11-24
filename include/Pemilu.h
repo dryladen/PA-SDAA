@@ -24,6 +24,7 @@ class Pemilu{
 		void deletePaslon();
 		void quickSort(Paslon **headRef, bool jenis);
 		bool ascendingOrDescending();
+		bool cekNomorUrut(std::string noUrut);
 		Paslon* displayPaslon();
 		Paslon *getTail(Paslon *cur);
 		Paslon *go(Paslon *pointer, int batas);

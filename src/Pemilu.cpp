@@ -13,9 +13,20 @@ Pemilih *voter = new Pemilih();
 void Pemilu::cls(){
 	system("cls");
 }
-
+bool Pemilu::cekNomorUrut(std::string noUrut){
+	Paslon *pointer = frontPaslon;
+	while(pointer != NULL){
+		if(pointer->noUrut == noUrut){
+			std::cout << "Nomor urut " << noUrut << " sudah digunakan" << std::endl;
+			return true;
+		}
+		pointer = pointer->next;
+	}
+	return false;
+}
 void Pemilu::enquePaslon(){
 	int batas;
+	bool cek = true;
 	std::cout << "==============================================================" << std::endl;
 	std::cout << "Masukan jumlah Paslon : ";std::cin >> batas;
 	std::cout << "==============================================================" << std::endl;
@@ -25,8 +36,12 @@ void Pemilu::enquePaslon(){
 		std::cout << "==============================================================" << std::endl;
 		std::cout << "Paslon [" << i+1 << "]" << std::endl;
 		std::cout << std::endl;
-		std::cout << "Input Nomor Urut  : ";
-		fflush(stdin);std::getline(std::cin,databaru->noUrut);
+		while(cek == true){
+			std::cout << "Input Nomor Urut  : ";
+			fflush(stdin);std::getline(std::cin,databaru->noUrut);
+			cek = cekNomorUrut(databaru->noUrut);
+			(cek) ? cek == true: cek == false;
+		}
 		std::cout << "Input Nama Ketua  : ";
 		fflush(stdin);std::getline(std::cin,databaru->namaKetua);
 		std::cout << "Input Nama Wakil  : ";
@@ -203,6 +218,7 @@ void Pemilu::admin(){
 		TAMBAH_DATA, UBAH_DATA,
 		HAPUS_DATA, TAMPILKAN_DATA
 	};
+	
 	while(true){
 		std::cout << "==============================================================" << std::endl;
 		std::cout << ">> Menu admin" << std::endl;
@@ -216,11 +232,13 @@ void Pemilu::admin(){
 		std::cout << "Masukan pilihan : "; std::cin >> menu;
 		
 		if(menu == 1){
+			voter->quickSort(true);
+			quickSort(&frontPaslon,true);
 			pilih = pemilihOrPaslon();
 			(pilih == 1) ? voter->enquePemilih() : enquePaslon();
 		} else if (menu == 2){
 			pilih = pemilihOrPaslon();
-			(pilih == 1) ?voter->updatePemilih() : updatePaslon();
+			(pilih == 1) ? voter->updatePemilih() : updatePaslon();
 		} else if (menu == 3){
 			pilih = pemilihOrPaslon();
 			if (pilih == 1){
@@ -374,7 +392,7 @@ int Pemilu::jumpSearch(){
 	}
 	quickSort(&frontPaslon, true);
 	std::string noUrut;
-	std::cout << "Masukan no Urut";fflush(stdin);std::getline(std::cin,noUrut);
+	std::cout << "Masukan no Urut : ";fflush(stdin);std::getline(std::cin,noUrut);
 	int n = 0;
 	Paslon *pointer = frontPaslon;
 	while(pointer != NULL){

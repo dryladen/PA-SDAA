@@ -50,15 +50,18 @@ void readDataBasePemilih(pemilih* &head, pemilih* &tail){
 	openDataBasePemilih();
 	
 	while(!dataFile.eof()){
-		pemilih* dataBaru = new pemilih();
 		
+		pemilih* dataBaru = new pemilih();
 		getline(dataFile,dataBaru->nik,',');
 		getline(dataFile,dataBaru->nama, ',');
 		getline(dataFile,dataBaru->pilihNoUrut,',');
 		dataFile >> dataBaru->daftar;
 		getline(dataFile, space);
-		
 		dataBaru->next = NULL;
+		
+		if (dataFile.eof()){
+			break;
+		}
 		
 		if (head == NULL){
 			head = dataBaru;
@@ -67,9 +70,6 @@ void readDataBasePemilih(pemilih* &head, pemilih* &tail){
 		} else {
 			tail->next = dataBaru;
 			tail = dataBaru;
-		}
-		if (dataFile.eof()){
-			break;
 		}
 	}
 	dataFile.close();
@@ -83,15 +83,17 @@ void readQueuePemilih(pemilih* &head, pemilih* &tail){
 	}
 	
 	while(!dataFile.eof()){
+		
 		pemilih* dataBaru = new pemilih();
 		getline(dataFile,dataBaru->nik,',');
 		getline(dataFile,dataBaru->nama, ',');
 		getline(dataFile,dataBaru->password,',');
 		getline(dataFile,dataBaru->pilihNoUrut,'\n');
-
-		
 		dataBaru->next = NULL;
 
+		if (dataFile.eof()){
+			break;
+		}
 		if (head == NULL){
 			head = dataBaru;
 			tail = dataBaru;
@@ -99,9 +101,6 @@ void readQueuePemilih(pemilih* &head, pemilih* &tail){
 		} else {
 			tail->next = dataBaru;
 			tail = dataBaru;
-		}
-		if (dataFile.eof()){
-			break;
 		}
 	}
 	dataFile.close();
@@ -153,6 +152,7 @@ void updateDataBasePemilih(pemilih* &head){
 		}
 		temp = temp->next;
 	}
+	dataFile << "\n";
 	dataFile.close();
 }
 
@@ -168,6 +168,7 @@ void updateQueuePemilih(pemilih* head){
 		}
 		tmp = tmp->next;
 	}
+	dataFile << "\n";
 	dataFile.close();
 }
 
@@ -183,6 +184,6 @@ void updateDataPaslon(Paslon* &head){
 		}
 		tmp = tmp->next;
 	}
+	dataFile << "\n";
 	dataFile.close();
 }
-

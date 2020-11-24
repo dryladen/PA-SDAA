@@ -116,6 +116,7 @@ void Pemilih::displayPemilih(){
 }
 void Pemilih::enquePemilih(){
 	int batas;
+	bool cek = true;
 	std::cout << "==============================================================" << std::endl;
 	std::cout << "Masukan jumlah Pemilih : ";std::cin >> batas;
 	std::cout << "==============================================================" << std::endl;
@@ -125,8 +126,12 @@ void Pemilih::enquePemilih(){
 		std::cout << "==============================================================" << std::endl;
 		std::cout << "Pemilih [" << i+1 << "]" << std::endl;
 		std::cout << std::endl;
-		std::cout << "Input NIK     : ";
-		std::cin >> databaru->nik;
+		while(cek == true){
+			std::cout << "Input NIK     : ";
+			std::cin >> databaru->nik;
+			cek = cekNomorUrut(databaru->nik);
+			(cek) ? cek == true: cek == false;
+		}
 		std::cout << "Input Nama    : ";
 		fflush(stdin);std::getline(std::cin,databaru->nama);
 		databaru->next = NULL;
@@ -238,6 +243,7 @@ void Pemilih::pilihPaslon(){
 	pemilih *pointer1 = frontdatabasePemilih;
 	while(pointer != NULL){
 		if(pilih == pointer->noUrut){
+			pointer->jumlahSuara++;
 			frontPemilih->pilihNoUrut = pilih;
 			while(pointer1 != NULL){ // untuk ngubah pilih nomor urut yang ada di database
 				if(frontPemilih->nik == pointer1->nik){
@@ -308,6 +314,18 @@ void Pemilih::updatePemilih(){
 	std::cout << "==============================================================" << std::endl;
 	std::cout << "Pemilih tidak terdaftar" << std::endl;
 	std::cout << "==============================================================" << std::endl;
+}
+
+bool Pemilih::cekNomorUrut(std::string nik){
+	pemilih *pointer = frontdatabasePemilih;
+	while(pointer != NULL){
+		if(pointer->nik == nik){
+			std::cout << "NIK " << nik << " sudah digunakan" << std::endl;
+			return true;
+		}
+		pointer = pointer->next;
+	}
+	return false;
 }
 
 void Pemilih::user(){
@@ -428,7 +446,7 @@ int Pemilih::jumpSearch(){
 	}
 	quickSort(true);
 	std::string nik;
-	std::cout << "Masukan no Urut";fflush(stdin);std::getline(std::cin,nik);
+	std::cout << "Masukan NIK : ";fflush(stdin);std::getline(std::cin,nik);
 	int n = 0;
 	pemilih *pointer = frontdatabasePemilih;
 	while(pointer != NULL){

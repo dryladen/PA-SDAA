@@ -25,6 +25,7 @@ class Pemilih{
 		void dequePemilih();
 		void updatePemilih();
 		void quickSort(bool jenis);
+		bool cekNomorUrut(std::string noUrut);
 		pemilih* getTail(pemilih *cur);
 		pemilih* partition(pemilih *head, pemilih *end, pemilih **newHead, pemilih **newEnd, bool jenis);
 		pemilih* quickSortRecur(pemilih *head, pemilih *end, bool jenis);
