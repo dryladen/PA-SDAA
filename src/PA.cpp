@@ -1,9 +1,4 @@
-#include <iostream>
-#include <conio.h>
 #include "..\include\Pemilu.h"
-#include "..\include\Pemilih.h"
-#include "..\include\File.h"
-#include "..\include\FrontEnd.h"
 
 using namespace std;
 

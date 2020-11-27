@@ -169,7 +169,6 @@ void blink(std::string text,int x = 57){
 void frameDisplay(){
 	system("cls");
 	lineX(8,114,1,219);
-	lineX(9,113,3,220);
 	lineX(9,113,5,220);
 	lineX(9,113,8,205);
 	lineY(1,5,8,219);

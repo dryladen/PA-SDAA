@@ -1,19 +1,10 @@
-#include <iostream>
-#include <string>
-#include <conio.h>
-#include <math.h>
 #include "..\include\Pemilu.h"
-#include "..\include\Pemilih.h"
-#include "..\include\FrontEnd.h"
 
 extern Paslon *frontPaslon;
 extern Paslon *rearPaslon;
 
 Pemilih *voter = new Pemilih();
 
-void Pemilu::cls(){
-	system("cls");
-}
 bool Pemilu::cekNomorUrut(std::string noUrut){
 	Paslon *pointer = frontPaslon;
 	while(pointer != NULL){
@@ -26,42 +17,55 @@ bool Pemilu::cekNomorUrut(std::string noUrut){
 	return false;
 }
 void Pemilu::enquePaslon(){
-	system("cls");
-	int batas;
-	bool cek = false;
-	frameOneInput();
-	gotoXY(40,15);std::cout << "JUMLAH  PASLON";
-	gotoXY(57,15);std::cin >> batas;
-	for(int i = 0; i < batas; i-=-1){
-		Paslon *databaru = new Paslon();
-		ulang:
+	try{
 		system("cls");
-		frameFourInput();
-		gotoXY(59,6);std::cout << "Paslon [" << i+1 << "]" << std::endl;
-		gotoXY(43,11);std::cout << "NOMOR URUT";
-		gotoXY(43,15);std::cout << "KETUA";
-		gotoXY(43,19);std::cout << "WAKIL";
-		gotoXY(43,23);std::cout << "PARTAI";
-		gotoXY(57,11);fflush(stdin);std::getline(std::cin,databaru->noUrut);
-		cek = cekNomorUrut(databaru->noUrut);
-		if (cek == true){
-			goto ulang;
+		int batas;
+		bool cek = false;
+		frameOneInput();
+		gotoXY(40,15);std::cout << "JUMLAH  PASLON";
+		gotoXY(57,15);std::cin >> batas;
+		while(std::cin.fail()) {
+		    std::cin.clear();
+		    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+		    blink("HANYA BOLEH ANGKA",55);
+		    frameOneInput();
+		    gotoXY(40,15);std::cout << "JUMLAH  PASLON";
+		    gotoXY(57,15);std::cin >> batas;
 		}
-		gotoXY(57,15);fflush(stdin);std::getline(std::cin,databaru->namaKetua);
-		gotoXY(57,19);fflush(stdin);std::getline(std::cin,databaru->namaWakilKetua);
-		gotoXY(57,23);fflush(stdin);std::getline(std::cin,databaru->partai);
-		databaru->next = NULL;
-		if(frontPaslon == NULL){
-			frontPaslon = databaru;
-			rearPaslon = databaru;
-		} else {
-			rearPaslon->next = databaru;
-			rearPaslon = databaru;
+		for(int i = 0; i < batas; i-=-1){
+			Paslon *databaru = new Paslon();
+			ulang:
+			system("cls");
+			frameFourInput();
+			gotoXY(59,6);std::cout << "Paslon [" << i+1 << "]" << std::endl;
+			gotoXY(43,11);std::cout << "NOMOR URUT";
+			gotoXY(43,15);std::cout << "KETUA";
+			gotoXY(43,19);std::cout << "WAKIL";
+			gotoXY(43,23);std::cout << "PARTAI";
+			gotoXY(57,11);fflush(stdin);std::getline(std::cin,databaru->noUrut);
+			cek = cekNomorUrut(databaru->noUrut);
+			if (cek == true){
+				goto ulang;
+			}
+			gotoXY(57,15);fflush(stdin);std::getline(std::cin,databaru->namaKetua);
+			gotoXY(57,19);fflush(stdin);std::getline(std::cin,databaru->namaWakilKetua);
+			gotoXY(57,23);fflush(stdin);std::getline(std::cin,databaru->partai);
+			databaru->next = NULL;
+			if(frontPaslon == NULL){
+				frontPaslon = databaru;
+				rearPaslon = databaru;
+			} else {
+				rearPaslon->next = databaru;
+				rearPaslon = databaru;
+			}
 		}
+	} catch(int batas){
+		
+		batas = 0;
 	}
 }
 
-Paslon* Pemilu::displayPaslon(){
+Paslon* Pemilu::displayPaslon(int cek ){
 	system("cls");
 	Paslon *pointer = frontPaslon;
 	if(frontPaslon == NULL){
@@ -69,12 +73,14 @@ Paslon* Pemilu::displayPaslon(){
 		return NULL;
 	}
 	frameDisplay();
-	gotoXY(52,2);std::cout << "MENAMPILKAN DATA" << std::endl;
+	gotoXY(58,3);std::cout << "DATA PASLON" << std::endl;
 	gotoXY(12,7);std::cout << "NO URUT" << std::endl;
 	gotoXY(32,7);std::cout << "KETUA" << std::endl;
 	gotoXY(62,7);std::cout << "WAKIL" << std::endl;
 	gotoXY(86,7);std::cout << "PARTAI" << std::endl;
-	gotoXY(100,7);std::cout << "JUMLAH SUARA" << std::endl;
+	if(cek == 1){
+		gotoXY(100,7);std::cout << "JUMLAH SUARA" << std::endl;
+	}
 	int y = 9;
 	while(pointer != NULL){
 		lineY(6,y,8,219);
@@ -82,14 +88,18 @@ Paslon* Pemilu::displayPaslon(){
 		lineY(6,y,20,186); // kolom 1
 		lineY(6,y,50,186); // kolom 2
 		lineY(6,y,78,186); // kolom 3
-		lineY(6,y,98,186); // kolom 4
+		if(cek == 1){
+			lineY(6,y,98,186); // kolom 4
+		}
 		lineY(6,y,113,186);
 		lineY(6,y,114,219);
 		gotoXY(14,y);std::cout <<pointer->noUrut << std::endl;
 		gotoXY(22,y);std::cout <<pointer->namaKetua << std::endl;
 		gotoXY(52,y);std::cout <<pointer->namaWakilKetua << std::endl;
 		gotoXY(80,y);std::cout <<pointer->partai << std::endl;
-		gotoXY(105,y);std::cout <<pointer->jumlahSuara << std::endl;
+		if(cek == 1){
+			gotoXY(105,y);std::cout <<pointer->jumlahSuara << std::endl;
+		}
 		pointer = pointer->next;
 		y++;
 	}
@@ -110,7 +120,7 @@ int Pemilu::login(){
 	do{
 		frameTwoInput();
 		password = "";
-	    gotoXY(43,13);std::cout<< "USERNAME : "; fflush(stdin);
+	    gotoXY(43,13);std::cout<< "USERNAME : ";fflush(stdin);
 	    gotoXY(43,17);std::cout<< "PASSWORD : ";
 		gotoXY(57,13);std::getline(std::cin,username);
 	    char huruf;
@@ -134,7 +144,9 @@ int Pemilu::login(){
 					password.erase(password.length()-1);
 				}
 			} else {
-				std::cout << "*";
+				if(password.length() <= 24){
+					std::cout << "*";
+				}
 				password += huruf;
 			}
 	    }
@@ -276,7 +288,7 @@ void Pemilu::admin(){
 			} else if (pilih == 2){
 				jenis = ascendingOrDescending();
 				quickSort(&frontPaslon,jenis);
-				displayPaslon();
+				displayPaslon(1);
 			}
 		} else if (menu == KEMBALI){
 			return;

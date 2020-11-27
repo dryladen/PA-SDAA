@@ -1,6 +1,6 @@
-#include <string>
 #ifndef _PEMILIH
 #define _PEMILIH
+
 struct pemilih{
 	std::string nik;
 	std::string nama;

@@ -1,11 +1,4 @@
-#include <iostream>
-#include <string>
-#include <conio.h>
-#include <math.h>
-#include "..\include\Pemilih.h"
 #include "..\include\Pemilu.h"
-#include "..\include\File.h"
-#include "..\include\FrontEnd.h"
 
 // data untuk yang udah daftar
 extern pemilih *frontPemilih;
@@ -40,7 +33,6 @@ int Pemilih::login(){
 		    		blink("LOGIN BERHASIL");
 			    	return 1;
 			    } else {
-		    		pemilu->cls();
 		    		pemilih *pointer = frontPemilih;			    		
 		    		while(pointer != NULL){
 		    			if(nik == pointer->nama && password == pointer->password){
@@ -60,7 +52,9 @@ int Pemilih::login(){
 					password.erase(password.length()-1);
 				}
 			} else {
-				std::cout << "*";
+				if(password.length() <= 24){
+					std::cout << "*";
+				}
 				password += huruf;
 			}
 		}
@@ -75,7 +69,7 @@ int Pemilih::login(){
 
 void Pemilih::displayDataDiri(){
 	frameThreeInput();
-	gotoXY(54,6);std::cout << "Menampilkan data diri" << std::endl;
+	gotoXY(54,6);std::cout << "MENAMPILKAN DATA DIRI" << std::endl;
 	gotoXY(43,11);std::cout << "NIK" << std::endl;
 	gotoXY(43,15);std::cout << "NAMA" << std::endl;
 	gotoXY(43,19);std::cout << "PASSWORD" << std::endl;
@@ -95,7 +89,7 @@ void Pemilih::displayPemilih(){
 		return;
 	}
 	frameDisplay();
-	gotoXY(56,2);std::cout << "Menampilkan data" << std::endl;
+	gotoXY(58,3);std::cout << "DATA PEMILIH" << std::endl;
 	gotoXY(12,7);std::cout << "NO" << std::endl;
 	gotoXY(20,7);std::cout << "NIK" << std::endl;
 	gotoXY(55,7);std::cout << "NAMA" << std::endl;
@@ -136,6 +130,14 @@ void Pemilih::enquePemilih(){
 	frameOneInput();
 	gotoXY(40,15);std::cout << "JUMLAH PEMILIH";
 	gotoXY(57,15);std::cin >> batas;
+	while(std::cin.fail()) {
+		    std::cin.clear();
+		    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+		    blink("HANYA BOLEH ANGKA",55);
+		    frameOneInput();
+		    gotoXY(40,15);std::cout << "JUMLAH PEMILIH";
+		    gotoXY(57,15);std::cin >> batas;
+		}
 	for(int i = 0; i < batas; i-=-1){
 		pemilih *databaru = new pemilih();
 		ulang:
@@ -222,9 +224,9 @@ void Pemilih::masuk_atau_daftar(){
 	do{
 		frameAwal();
 		if(frontPemilih == NULL){
-			gotoXY(52,11);std::cout << "Belum ada yang daftar" << std::endl;
+			gotoXY(52,11);std::cout << "BELUM ADA YANG DAFTAR" << std::endl;
 		} else {
-			gotoXY(52,11);std::cout << "Giliran coblos : " << frontPemilih->nama << std::endl;
+			gotoXY(35,11);std::cout << "GILIRAN COBLOS : " << frontPemilih->nama << std::endl;
 		}
 		gotoXY(36,17);std::cout << "1. Login" << std::endl;
 		gotoXY(58,17);std::cout << "2. Daftar" << std::endl;
@@ -255,7 +257,7 @@ void Pemilih::pilihPaslon(){
 		return;
 	}
 	std::string pilih;
-	Paslon *frontPaslon = pemilu->displayPaslon();
+	Paslon *frontPaslon = pemilu->displayPaslon(0);
 	if(frontPaslon == NULL){
 		return;
 	}
@@ -397,7 +399,7 @@ void Pemilih::user(){
 		if(menu == '1'){
 			displayDataDiri();
 		} else if (menu == '2'){
-			pemilu->displayPaslon();
+			pemilu->displayPaslon(0);
 		} else if (menu == '3'){
 			pilihPaslon();
 			if(frontPemilih->pilihNoUrut.compare("none") != 0){

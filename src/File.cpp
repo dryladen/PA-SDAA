@@ -1,7 +1,3 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include "..\include\File.h"
 #include "..\include\Pemilu.h"
 
 std::fstream dataFile;
