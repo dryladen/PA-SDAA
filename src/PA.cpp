@@ -39,7 +39,7 @@ void menuAwal(){
 	
 	while(running){
 		frameAwal();
-		gotoXY(55,11);std::cout << ">> MENU AWAL <<" << std::endl;
+		gotoXY(52,11);std::cout << ">> PEMILIHAN UMUM <<" << std::endl;
 		gotoXY(37,17);std::cout << "1. ADMIN" << std::endl;
 		gotoXY(59,17);std::cout << "2. USER" << std::endl;
 		gotoXY(80,17);std::cout << "0. EXIT" << std::endl;
