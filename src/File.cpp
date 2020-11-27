@@ -11,10 +11,8 @@ void openDataBasePemilih(){
 	dataFile.open("database\\databasePemilih.csv", std::ios::out | std::ios::in | std::ios::binary);
 	
 	if (dataFile.is_open()){
-		std::cout << "dataFile Ada\n";
 		return;
 	} 
-	std::cout << "dataFile Gak Ada. Buat Baru\n";
 	dataFile.close();
 	dataFile.open("database\\databasePemilih.csv", std::ios::trunc | std::ios::out | std::ios::in | std::ios::binary);
 }
@@ -23,10 +21,8 @@ void openDataBasePaslon(){
 	dataFile.open("database\\dataPaslon.csv", std::ios::out | std::ios::in | std::ios::binary);
 	
 	if (dataFile.is_open()){
-		std::cout << "dataPaslon Ada\n";
 		return;
 	} 
-	std::cout << "dataPaslon Gak Ada. Buat Baru\n";
 	dataFile.close();
 	dataFile.open("database\\dataPaslon.csv", std::ios::trunc | std::ios::out | std::ios::in | std::ios::binary);
 }
@@ -35,10 +31,8 @@ bool openQueuePemilih(){
 	dataFile.open("database\\dataQueuePemilih.csv", std::ios::out | std::ios::in | std::ios::binary);
 	
 	if (dataFile.is_open()){
-		std::cout << "dataQueuePemilih Ada\n";
 		return true;
 	} 
-	std::cout << "dataQueuePemilih Gak Ada. Buat Baru\n";
 	dataFile.close();
 	dataFile.open("database\\dataQueuePemilih.csv", std::ios::trunc | std::ios::out | std::ios::in | std::ios::binary);
 	return false;
@@ -147,12 +141,9 @@ void updateDataBasePemilih(pemilih* &head){
 	
 	while (temp!=NULL){
 		dataFile << temp->nik << "," << temp->nama << "," << temp->pilihNoUrut << "," << temp->daftar;
-		if (temp->next != NULL){
-			dataFile << "\n";
-		}
+		dataFile << "\n";
 		temp = temp->next;
 	}
-	dataFile << "\n";
 	dataFile.close();
 }
 
@@ -163,12 +154,9 @@ void updateQueuePemilih(pemilih* head){
 	
 	while (tmp!=NULL){
 		dataFile << tmp->nik << "," << tmp->nama << "," << tmp->password << "," << tmp->pilihNoUrut;
-		if (tmp->next != NULL){
-			dataFile << "\n";
-		}
+		dataFile << "\n";
 		tmp = tmp->next;
 	}
-	dataFile << "\n";
 	dataFile.close();
 }
 
@@ -179,11 +167,8 @@ void updateDataPaslon(Paslon* &head){
 	
 	while (tmp!=NULL){
 		dataFile << tmp->noUrut << "," << tmp->namaKetua << "," << tmp->namaWakilKetua << "," << tmp->partai << "," << tmp->jumlahSuara;
-		if (tmp->next != NULL){
-			dataFile << "\n";
-		}
+		dataFile << "\n";
 		tmp = tmp->next;
 	}
-	dataFile << "\n";
 	dataFile.close();
 }

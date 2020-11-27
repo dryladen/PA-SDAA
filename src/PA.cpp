@@ -3,6 +3,7 @@
 #include "..\include\Pemilu.h"
 #include "..\include\Pemilih.h"
 #include "..\include\File.h"
+#include "..\include\FrontEnd.h"
 
 using namespace std;
 
@@ -30,19 +31,19 @@ void menuAwal(){
 	Pemilih* voter = new Pemilih();
 	Pemilu* admin = new Pemilu();
 
-	int pilih;
+	char pilih;
 	bool running = 1;
 	enum option {
-		KELUAR = 0, ADMIN, USER
+		KELUAR = '0', ADMIN = '1', USER = '2'
 	};
+	
 	while(running){
-		cout << "==============================================================" << endl;
-		cout << "Menu Awal" << endl;
-		cout << "1. Admin" << endl;
-		cout << "2. User" << endl;
-		cout << "0. Exit Program" << endl;
-		cout << "==============================================================" << endl;
-		cout << "Masukan pilihan : ";cin >> pilih;
+		frameAwal();
+		gotoXY(55,11);std::cout << ">> MENU AWAL <<" << std::endl;
+		gotoXY(37,17);std::cout << "1. ADMIN" << std::endl;
+		gotoXY(59,17);std::cout << "2. USER" << std::endl;
+		gotoXY(80,17);std::cout << "0. EXIT" << std::endl;
+		pilih = getch();
 		switch (pilih){
 			case ADMIN:
 				admin->admin();
@@ -51,6 +52,7 @@ void menuAwal(){
 				voter->masuk_atau_daftar();
 				break;
 			case KELUAR:
+				blink("EXIT PROGRAM",58);
 				running = 0;
 				break;
 			default:

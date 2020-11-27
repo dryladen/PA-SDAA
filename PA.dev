@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
-UnitCount=7
+UnitCount=8
 
 [VersionInfo]
 Major=1
@@ -110,8 +110,21 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+[Unit9]
+FileName=include\FrontEnd.h
+
 [Unit7]
-FileName=include\File.h
+FileName=src\FrontEnd.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit8]
+FileName=include\FrontEnd.h
 CompileCpp=1
 Folder=
 Compile=1

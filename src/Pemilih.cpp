@@ -5,6 +5,7 @@
 #include "..\include\Pemilih.h"
 #include "..\include\Pemilu.h"
 #include "..\include\File.h"
+#include "..\include\FrontEnd.h"
 
 // data untuk yang udah daftar
 extern pemilih *frontPemilih;
@@ -20,42 +21,35 @@ int Pemilih::login(){
 	std::string nik,password;
 	int percobaan = 0;
 	if (frontPemilih == NULL){
-		std::cout << "==============================================================" << std::endl;
-    	std::cout << "Belum ada yang daftar" << std::endl;
-		std::cout << "==============================================================" << std::endl;
+		blink("BELUM ADA YANG DAFTAR",53);
 		return 2;
 	}
 	do{
+		frameTwoInput();
 		password = "";
-		std::cout << "==============================================================" << std::endl;
-	    std::cout<< "NIK      : "; fflush(stdin);std::getline(std::cin,nik);
-	    std::cout<< "PASSWORD : ";
+	    gotoXY(46,13);std::cout<< "NIK";fflush(stdin);
+	    gotoXY(43,17);std::cout<< "PASSWORD";
+		gotoXY(57,13);std::getline(std::cin,nik);
 	    char huruf;
 	    int i = 0;
-	    int pass= 55;
+	    int pass= 57;
+	    gotoXY(pass,17);
 	    while(huruf = getch()) { 
 	    	if (huruf == 13){
 		    	if (nik == frontPemilih->nik && password == frontPemilih->password && frontPemilih->pilihNoUrut.compare("none") == 0){
-		    		pemilu->cls();
-		    		std::cout << "==============================================================" << std::endl;
-			    	std::cout << "Login berhasil" << std::endl;
-		    		std::cout << "==============================================================" << std::endl;
+		    		blink("LOGIN BERHASIL");
 			    	return 1;
 			    } else {
 		    		pemilu->cls();
 		    		pemilih *pointer = frontPemilih;			    		
 		    		while(pointer != NULL){
 		    			if(nik == pointer->nama && password == pointer->password){
-		    				std::cout << "==============================================================" << std::endl;
-			    			std::cout << "Bukan antrian anda " << std::endl;
-			    			std::cout << "==============================================================" << std::endl;
+		    				blink("BUKAN ANTRIAN ANDA",54);
 			    			return 0;
 		    			}
 		    			pointer = pointer->next;
 		    		}
-			    	std::cout << "==============================================================" << std::endl;
-			    	std::cout << "Akun tidak ada " << std::endl;
-			    	std::cout << "==============================================================" << std::endl;
+		    		blink("AKUN TIDAK ADA",56);
 			    	percobaan++;
 			    	break;
 			    }
@@ -72,9 +66,7 @@ int Pemilih::login(){
 		}
 
 	    if (percobaan == 3){
-	    	std::cout << "==============================================================" << std::endl;
-	    	std::cout << "Kembali ke menu awal" << std::endl;
-	    	std::cout << "==============================================================" << std::endl;
+	    	blink("KEMBALI KE MENU AWAL",54);
 	    	return 0;
 	    }
 	} while (true);  
@@ -82,14 +74,16 @@ int Pemilih::login(){
 }
 
 void Pemilih::displayDataDiri(){
-	pemilih *pointer = frontPemilih;
-	std::cout << "==============================================================" << std::endl;
-	std::cout << "Menampilkan data diri" << std::endl;
-	std::cout << "NIK              : " << pointer->nik << std::endl;
-	std::cout << "Nama             : " << pointer->nama << std::endl;
-	std::cout << "Passwrod         : " << pointer->password << std::endl;
-	std::cout << "Pilih Nomor Urut : " << pointer->pilihNoUrut << std::endl;
-	std::cout << "==============================================================" << std::endl;
+	frameThreeInput();
+	gotoXY(54,6);std::cout << "Menampilkan data diri" << std::endl;
+	gotoXY(43,11);std::cout << "NIK" << std::endl;
+	gotoXY(43,15);std::cout << "NAMA" << std::endl;
+	gotoXY(43,19);std::cout << "PASSWORD" << std::endl;
+	gotoXY(57,11);std::cout << frontPemilih->nik << std::endl;
+	gotoXY(57,15);std::cout << frontPemilih->nama << std::endl;
+	gotoXY(57,19);std::cout << frontPemilih->password << std::endl;
+	gotoXY(41,26);std::cout << " >> TEKAN APA SAJA UNTUK MELANJUTKAN  << " << std::endl;
+	getch();
 }
 
 void Pemilih::displayPemilih(){
@@ -97,43 +91,66 @@ void Pemilih::displayPemilih(){
 	pemilih *pointer = frontdatabasePemilih;
 	int i = 0;
 	if(frontdatabasePemilih == NULL){
-		std::cout << "==============================================================" << std::endl;
-		std::cout<< ">>    Data Kosong   <<" <<std::endl;
-		std::cout << "==============================================================" << std::endl;
+		blink(">>    DATA KOSONG   <<",52);
 		return;
 	}
-	std::cout << "==============================================================" << std::endl;
+	frameDisplay();
+	gotoXY(56,2);std::cout << "Menampilkan data" << std::endl;
+	gotoXY(12,7);std::cout << "NO" << std::endl;
+	gotoXY(20,7);std::cout << "NIK" << std::endl;
+	gotoXY(55,7);std::cout << "NAMA" << std::endl;
+	gotoXY(97,7);std::cout << "STATUS" << std::endl;
+	int y = 9;
 	while(pointer != NULL){
-		std::cout << "Pemilih [" << i+1 << "]" << std::endl;
-		std::cout << "NIK           : " << pointer->nik << std::endl;
-		std::cout << "Nama          : " << pointer->nama << std::endl;
-		(pointer->pilihNoUrut.compare("none") == 0) ? std::cout << "Status        : Belum Coblos " << std::endl : std::cout << "Status        : Sudah Coblos " << std::endl;
-		std::cout << std::endl;
+		lineY(6,y,8,219);
+		lineY(6,y,9,186);
+		lineY(6,y,15,186);
+		lineY(6,y,29,186);
+		lineY(6,y,85,186);
+		lineY(6,y,113,186);
+		lineY(6,y,114,219);
+		gotoXY(12,y);std::cout << i+1 << std::endl;
+		gotoXY(17,y);std::cout << pointer->nik << std::endl;
+		gotoXY(31,y);std::cout << pointer->nama << std::endl;
+		if(pointer->pilihNoUrut.compare("none") == 0){
+			gotoXY(87,y);std::cout << "Belum Coblos" << std::endl;
+		} else {
+			gotoXY(87,y);std::cout << "Sudah Coblos" << std::endl;
+		}
 		pointer = pointer->next;
+		y++;
 		i++;
 	}
-	std::cout << "==============================================================" << std::endl;
+	lineY(6,y,9,186);
+	lineY(6,y,113,186);
+	lineX(8,114,y++,205);
+	lineY(6,y,8,219);
+	lineY(6,y,114,219);
+	lineX(8,114,y,219);
+	gotoXY(40,y);std::cout << " >> TEKAN APA SAJA UNTUK MELANJUTKAN  << " << std::endl;
+	gotoXY(0,0);getch();
 }
 void Pemilih::enquePemilih(){
 	int batas;
 	bool cek = true;
-	std::cout << "==============================================================" << std::endl;
-	std::cout << "Masukan jumlah Pemilih : ";std::cin >> batas;
-	std::cout << "==============================================================" << std::endl;
-	std::cout << ">> Memasukan Data Pemilih : " << std::endl;
+	frameOneInput();
+	gotoXY(40,15);std::cout << "JUMLAH PEMILIH";
+	gotoXY(57,15);std::cin >> batas;
 	for(int i = 0; i < batas; i-=-1){
 		pemilih *databaru = new pemilih();
-		std::cout << "==============================================================" << std::endl;
-		std::cout << "Pemilih [" << i+1 << "]" << std::endl;
-		std::cout << std::endl;
-		while(cek == true){
-			std::cout << "Input NIK     : ";
-			std::cin >> databaru->nik;
-			cek = cekNomorUrut(databaru->nik);
-			(cek) ? cek == true: cek == false;
+		ulang:
+		system("cls");
+		frameTwoInput();
+		frame(84,97,9,11);
+		gotoXY(86,10);std::cout << "Pemilih [" << i+1 << "]" << std::endl;
+		gotoXY(46,13);std::cout << "NIK";
+		gotoXY(46,17);std::cout << "NAMA";
+		gotoXY(57,13);std::cin >> databaru->nik;
+		cek = cekNomorUrut(databaru->nik);
+		if (cek == true){
+			goto ulang;
 		}
-		std::cout << "Input Nama    : ";
-		fflush(stdin);std::getline(std::cin,databaru->nama);
+		gotoXY(57,17);fflush(stdin);std::getline(std::cin,databaru->nama);
 		databaru->next = NULL;
 		if(frontdatabasePemilih == NULL){
 			frontdatabasePemilih = databaru;
@@ -148,20 +165,22 @@ void Pemilih::enquePemilih(){
 void Pemilih::cekData(){
 	std::string nik;
 	std::string nama;
-	std::cout << "Input NIK        : ";std::cin >> nik;
-	std::cout << "Input Nama       : ";fflush(stdin);std::getline(std::cin, nama);
+	frameTwoInput();
+	gotoXY(46,13);std::cout << "NIK";
+	gotoXY(46,17);std::cout << "NAMA";
+	gotoXY(57,13);std::cin >> nik;
+	gotoXY(57,17);fflush(stdin);std::getline(std::cin, nama);
 
 	pemilih *matching = frontdatabasePemilih;
 	pemilih *matching0 = frontPemilih;
 	// cek udah daftar atau belum
 	while(matching != NULL){
 		if(matching->nik == nik && matching->daftar == true){
-			if(matching->pilihNoUrut.compare("none") == 0){
-				std::cout << "Anda sudah memilih" << std::endl;
-				
+			if(matching->pilihNoUrut.compare("none") != 0){
+				blink("ANDA SUDAH MEMILIH",54);
 				return;
 			} else {
-				std::cout << "Anda sudah mendaftar" << std::endl;
+				blink("ANDA SUDAH MENDAFTAR",54);
 				return;
 			}
 		}
@@ -171,7 +190,9 @@ void Pemilih::cekData(){
 	while(matching != NULL){
 	    if(matching->nama.compare(nama) == 0 && matching->nik.compare(nik) == 0){
 			pemilih *databaru = new pemilih();
-    		std::cout << "Masukan password : ";std::getline(std::cin,databaru->password);
+			frameOneInput();
+    		gotoXY(44,15);std::cout << "PASSWORD";
+			gotoXY(57,15);std::getline(std::cin,databaru->password);
     		databaru->nik = matching->nik;
     		databaru->pilihNoUrut = matching->pilihNoUrut;
     		databaru->nama = matching->nama;
@@ -191,22 +212,24 @@ void Pemilih::cekData(){
 	    }
 	    matching = matching->next;
 	}
-	std::cout << "Data anda tidak terdaftar" << std::endl;
+	blink("DATA ANDA TIDAK TERDAFTAR",51);
 } 
 
 void Pemilih::masuk_atau_daftar(){
 	int opsi, cek;
 	bool running = 1;
-	enum option {KEMBALI=0, LOGIN, DAFTAR};
+	enum option {KEMBALI = '0', LOGIN = '1', DAFTAR = '2'};
 	do{
-
-		std::cout << "==============================================================" << std::endl;
-		(frontPemilih == NULL) ? std::cout << ">> Belum ada yang daftar" << std::endl : std::cout << ">> Giliran coblos : " << frontPemilih->nama << std::endl;
-		std::cout << "==============================================================" << std::endl;
-		std::cout << "1. Login" << std::endl;
-		std::cout << "2. Daftar" << std::endl;
-		std::cout << "0. Kembali" << std::endl;
-		std::cout << "=> "; std::cin >> opsi;
+		frameAwal();
+		if(frontPemilih == NULL){
+			gotoXY(52,11);std::cout << "Belum ada yang daftar" << std::endl;
+		} else {
+			gotoXY(52,11);std::cout << "Giliran coblos : " << frontPemilih->nama << std::endl;
+		}
+		gotoXY(36,17);std::cout << "1. Login" << std::endl;
+		gotoXY(58,17);std::cout << "2. Daftar" << std::endl;
+		gotoXY(79,17);std::cout << "0. Kembali" << std::endl;
+		opsi = getch();
 		switch (opsi){
 			case LOGIN:
 				cek = login();
@@ -228,9 +251,7 @@ void Pemilih::masuk_atau_daftar(){
 
 void Pemilih::pilihPaslon(){
 	if (frontPemilih->pilihNoUrut.compare("none") != 0){
-		std::cout << "==============================================================" << std::endl;
-		std::cout << "Anda sudah memilih paslon" << std::endl;
-		std::cout << "==============================================================" << std::endl;
+		blink("ANDA SUDAH MEMILIH PASLON",51);
 		return;
 	}
 	std::string pilih;
@@ -238,7 +259,9 @@ void Pemilih::pilihPaslon(){
 	if(frontPaslon == NULL){
 		return;
 	}
-	std::cout << "Input nomor Paslon : ";std::cin >> pilih;
+	frameOneInput();
+	gotoXY(44,15);std::cout << "NO PASLON";
+	gotoXY(57,15);std::cin >> pilih;
 	Paslon *pointer = frontPaslon;
 	pemilih *pointer1 = frontdatabasePemilih;
 	while(pointer != NULL){
@@ -255,9 +278,7 @@ void Pemilih::pilihPaslon(){
 		pointer = pointer->next;
 	}
 	if (frontPemilih->pilihNoUrut.compare("none") == 0){
-		std::cout << "==============================================================" << std::endl;
-		std::cout << "Paslon dengan nomor urut " << pilih << " tidak ada" << std::endl;
-		std::cout << "==============================================================" << std::endl;
+		blink("PASLON TIDAK TERDAFTAR",52);
 	}
 }
 
@@ -273,54 +294,83 @@ void Pemilih::dequePemilih(){
 	temp = NULL;
 }
 
-void Pemilih::ubahSandi(){
-	std::string sandiBaru;
-	ulang:
-	std::cout << "Masukan password baru : "; fflush(stdin); std::getline(std::cin, sandiBaru);
-	if(frontPemilih->password == sandiBaru){
-		std::cout << "==============================================================" << std::endl;
-		std::cout << "Jangan memasukan password lama anda" << std::endl;
-		std::cout << "==============================================================" << std::endl;
-		goto ulang;
-	} else {
-		frontPemilih->password = sandiBaru;
-		std::cout << "==============================================================" << std::endl;
-		std::cout << "Update Password Berhasil" << std::endl;
-		std::cout << "==============================================================" << std::endl;
-	}
-}
-
 void Pemilih::updatePemilih(){
 	if (frontdatabasePemilih == NULL){
-		std::cout << "==============================================================" << std::endl;
-		std::cout<< ">>    Data Kosong   <<" <<std::endl;
-		std::cout << "==============================================================" << std::endl;
+		blink(">>    DATA KOSONG   <<",52);
 		return;
 	}
 	pemilih *pointer = frontdatabasePemilih;
 	std::string nik;
-	std::cout << "Masukan nik : ";std::cin >> nik;
+	frameOneInput();
+	gotoXY(46,15);std::cout << "NIK";
+	gotoXY(57,15);std::cin >> nik;
 	while(pointer != NULL){
 		if(pointer->nik.compare(nik) == 0){
-			std::cout << "Input NIK  : ";std::cin >> pointer->nik;
-			std::cout << "Input Nama : ";std::getline(std::cin, pointer->nama);
-			std::cout << "==============================================================" << std::endl;
-			std::cout << "Update data berhasil" << std::endl;
-			std::cout << "==============================================================" << std::endl;
+			frameTwoInput();
+			gotoXY(46,13);std::cout << "NIK";
+			gotoXY(46,17);std::cout << "NAMA";
+			gotoXY(57,13);fflush(stdin);std::getline(std::cin, pointer->nik);
+			gotoXY(57,17);std::getline(std::cin, pointer->nama);
+			blink("UPDATE DATA BERHASIL",54);
 			return;
 		}
 		pointer = pointer->next;
 	}
-	std::cout << "==============================================================" << std::endl;
-	std::cout << "Pemilih tidak terdaftar" << std::endl;
-	std::cout << "==============================================================" << std::endl;
+	blink("PEMILIH TIDAK TERDAFTAR",52);
 }
 
+void Pemilih::deletePemilih(){
+	if(frontdatabasePemilih == NULL){
+		blink(">>    DATA KOSONG   <<",52);
+		return;
+	}
+	pemilih *pointer = frontdatabasePemilih;
+	std::string nik;
+	frameOneInput();
+	gotoXY(46,15);std::cout << "NIK";
+	gotoXY(57,15);std::cin >> nik;
+	if (reardatabasePemilih->nik.compare(nik) == 0){
+		pemilih *pointer1 = frontdatabasePemilih;
+		while(pointer1->next != reardatabasePemilih){
+			pointer1 = pointer1->next;
+		}
+		pointer1->next = NULL;
+		reardatabasePemilih = NULL;
+		blink("DELETE PEMILIH BERHASIL",52);
+		return;
+	}
+	
+	while(pointer != NULL){
+		if(pointer->nik == nik){
+			blink("DELETE PEMILIH BERHASIL",52);
+			if(frontdatabasePemilih == reardatabasePemilih){
+				frontdatabasePemilih = reardatabasePemilih = NULL;
+				return;
+			} else if(frontdatabasePemilih != reardatabasePemilih && frontdatabasePemilih->nik == nik){
+				frontdatabasePemilih = frontdatabasePemilih->next;
+				delete pointer;
+				return;
+			}
+		}
+		if(pointer->next == NULL){
+			break;
+		}
+		if(pointer->next->nik == nik){
+			pemilih *temp = pointer->next;
+			pointer->next = temp->next;
+			delete temp;
+			blink("DELETE PEMILIH BERHASIL",52);
+			return;
+		}
+		pointer = pointer->next;
+	}
+	blink("PEMILIH TIDAK TERDAFTAR",52);
+}
 bool Pemilih::cekNomorUrut(std::string nik){
 	pemilih *pointer = frontdatabasePemilih;
 	while(pointer != NULL){
 		if(pointer->nik == nik){
-			std::cout << "NIK " << nik << " sudah digunakan" << std::endl;
+			blink("NIK SUDAH DIGUNAKAN",54);
 			return true;
 		}
 		pointer = pointer->next;
@@ -329,34 +379,35 @@ bool Pemilih::cekNomorUrut(std::string nik){
 }
 
 void Pemilih::user(){
-	int menu;
+	char menu;
 	while(true){
-		std::cout << "==============================================================" << std::endl;
-		std::cout << ">> Menu User" << std::endl;
-		std::cout << "1. Cek data diri" << std::endl;
-		std::cout << "2. List paslon" << std::endl;
-		std::cout << "3. pilih paslon" << std::endl;
-		std::cout << "4. Ubah kata sandi" << std::endl;
-		std::cout << "0. Kembali ke menu awal" << std::endl;
-		std::cout << "==============================================================" << std::endl;
-		std::cout << "Masukan pilihan : "; std::cin >> menu;
-		if(menu == 1){
+		system("cls");
+		frameMain();
+		frame(47,77,9,11);
+		frame(32,57,14,16);
+		frame(67,92,14,16);
+		frame(32,57,18,20);
+		frame(67,92,18,20);
+		gotoXY(55,10);std::cout << ">> MENU USER <<" << std::endl;
+		gotoXY(35,15);std::cout << "1. DATA DIRI" << std::endl;
+		gotoXY(70,15);std::cout << "2. LIST PASLON" << std::endl;
+		gotoXY(35,19);std::cout << "3. PILIH PASLON" << std::endl;
+		gotoXY(70,19);std::cout << "0. MENU AWAL" << std::endl;
+		menu = getch();
+		if(menu == '1'){
 			displayDataDiri();
-		} else if (menu == 2){
+		} else if (menu == '2'){
 			pemilu->displayPaslon();
-		} else if (menu == 3){
+		} else if (menu == '3'){
 			pilihPaslon();
-		} else if (menu == 4){
-			ubahSandi();
-		} else if (menu == 0){
 			if(frontPemilih->pilihNoUrut.compare("none") != 0){
 				dequePemilih();
+				return;
 			}
-			return;
+		} else if (menu == '0'){
+			blink("ANDA BELUM PILIH PASLON",52);
 		} else {
-			std::cout << "==============================================================" << std::endl;
-			std::cout << "Pilihan tidak ada" << std::endl;
-			std::cout << "==============================================================" << std::endl;
+			blink("PILIHAN TIDAK ADA",55);
 		}
 	}
 }
@@ -441,12 +492,14 @@ pemilih * Pemilih::go(pemilih *pointer, int batas){
 
 int Pemilih::jumpSearch(){
 	if(frontdatabasePemilih == NULL){
-		std::cout<< ">>    Data Kosong   <<" <<std::endl;
+		blink(">>    DATA KOSONG   <<",52);
 		return -1;
 	}
 	quickSort(true);
 	std::string nik;
-	std::cout << "Masukan NIK : ";fflush(stdin);std::getline(std::cin,nik);
+	frameOneInput();
+	gotoXY(46,15);std::cout << "NIK";
+	gotoXY(57,15);std::cin >> nik;
 	int n = 0;
 	pemilih *pointer = frontdatabasePemilih;
 	while(pointer != NULL){
@@ -461,7 +514,7 @@ int Pemilih::jumpSearch(){
 		prev = step; 
 		step += sqrt(n); 
 		if (prev >= n){
-			std::cout << ">> Pemilih tidak terdaftar <<" << std::endl;
+			blink("PEMILIH TIDAK TERDAFTAR",52);
 			return -1; 
 		}
 		arr = std::min(step, n)-1;
@@ -471,23 +524,28 @@ int Pemilih::jumpSearch(){
 	while (data->nik < nik) { 
 		prev++; 
 		if (prev == std::min(step, n)){
-			std::cout << ">> Pemilih tidak terdaftar <<" << std::endl;
+			blink("PEMILIH TIDAK TERDAFTAR",52);
 			return -1;
 		}
 		data = go(frontdatabasePemilih,prev);
 	} 
 	data = go(frontdatabasePemilih,prev);
 	if (data->nik == nik){
-		std::cout << "==============================================================" << std::endl;
-		std::cout << ">> Pemilih ditemukan" << prev+1 << std::endl;
-		std::cout << "==============================================================" << std::endl;
-		std::cout << "NIK           : " << data->nik << std::endl;
-		std::cout << "Nama          : " << data->nama << std::endl;
-		(data->pilihNoUrut.compare("none") == 0) ? std::cout << "Status        : Belum Coblos " << std::endl : std::cout << "Status        : Sudah Coblos " << std::endl;
-		std::cout << std::endl;
-		std::cout << "==============================================================" << std::endl;
+		frameThreeInput();
+		gotoXY(56,6);std::cout << "Pemilih ditemukan" << std::endl;
+		gotoXY(43,11);std::cout << "NIK" << std::endl;
+		gotoXY(43,15);std::cout << "NAMA" << std::endl;
+		gotoXY(43,19);std::cout << "STATUS" << std::endl;
+		gotoXY(57,11);std::cout << data->nik << std::endl;
+		gotoXY(57,15);std::cout << data->nama << std::endl;
+		if(data->pilihNoUrut.compare("none") == 0){
+			gotoXY(57,19);std::cout << "Belum Coblos" << std::endl;
+		} else {
+			gotoXY(57,19);std::cout << "Sudah Coblos" << std::endl;
+		}
+		getch();
 		return prev;
 	}
-	std::cout << ">> Pemilih tidak terdaftar <<" << std::endl;
+	blink("PEMILIH TIDAK TERDAFTAR",52);
 	return -1; 
 }

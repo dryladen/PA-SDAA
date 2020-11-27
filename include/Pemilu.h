@@ -17,6 +17,7 @@ class Pemilu{
 		int pemilihOrPaslon();
 		int jumpSearch();
 		void cls();
+		void gotoXY(int x, int y);
 		void admin();
 		void enquePaslon();
 		void dequePaslon();
@@ -30,7 +31,6 @@ class Pemilu{
 		Paslon *go(Paslon *pointer, int batas);
 		Paslon *quickSortRecur(Paslon *head, Paslon *end, bool jenis);
 		Paslon *partition(Paslon *head, Paslon *end, Paslon **newHead, Paslon **newEnd, bool jenis);
-
 };
 
 #endif
